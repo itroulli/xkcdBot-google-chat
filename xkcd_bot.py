@@ -2,6 +2,7 @@ import requests
 import logging
 from datetime import datetime
 from flask import json
+import random
 
 
 def xkcd_bot(request):
@@ -54,12 +55,16 @@ def create_response(message_text):
     if message_text == 'latest':
         message = get_latest()
     elif message_text == 'random':
-        message = create_text('I should return a random xkcd!')
-    elif message_text == 'number':
-        message = 'I should return xkcd with number'
+        message = get_random()
+    elif is_valid_number(message_text):
+        message = get_number(message_text)
     else:
         message = create_text('Your message: "%s"' % message_text)
     return message
+
+
+def is_valid_number(input):
+    return input.isdigit() and 0 < int(input) < get_latest_num()
 
 
 def create_text(text):
@@ -77,6 +82,19 @@ def get_latest_num():
     latest = requests.get('https://xkcd.com/info.0.json')
     latest_json = latest.json()
     return latest_json['num']
+
+
+def get_random():
+    latest_num = get_latest_num()
+    num = str(random.randint(1, latest_num))
+    return get_number(num)
+
+
+def get_number(input):
+    comic = requests.get('https://xkcd.com/%s/info.0.json' % input)
+    comic_json = comic.json()
+    card = make_xkcd_card(comic_json)
+    return card
 
 
 def make_xkcd_card(data):
