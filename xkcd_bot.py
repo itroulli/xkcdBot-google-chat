@@ -56,10 +56,12 @@ def create_response(message_text):
         message = get_latest()
     elif message_text == 'random':
         message = get_random()
+    elif message_text == 'help':
+        message = get_help_card()
     elif is_valid_number(message_text):
         message = get_number(message_text)
     else:
-        message = create_text('Your message: "%s"' % message_text)
+        message = create_text("Sorry, I don't understand. Type 'help' to see all the valid commands.")
     return message
 
 
@@ -162,3 +164,73 @@ def make_xkcd_card(data):
         ]
     }
     return card_dict
+
+
+def get_help_card():
+    html_help_table = '''
+    <table class="tg" style=“border-collapse:collapse;border-spacing:0;”>
+    <thead>
+      <tr>
+        <th class="tg-6hok" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;ont-weight:normal;overflow:hidden;word-break:normal;background-color:#96fffb;font-weight:bold;
+        text-align:center;vertical-align:top;padding:14px 5px;>Command</th>
+        <th class="tg-pw5p" style=border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;font-weight:normal;overflow:hidden;word-break:normal;background-color:#9aff99;font-weight:bold;
+        text-align:center;vertical-align:top;padding:14px 5px;>Description</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="tg-7geq" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;background-color:#ffffc7;text-align:center;vertical-align:top;
+        padding:14px 5px;>latest</td>
+        <td class="tg-baqh" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;text-align:center;vertical-align:top;
+        padding:14px 5px;>Returns the latest <span style="font-style:italic">xkcd</span> comic strip.</td>
+      </tr>
+      <tr>
+        <td class="tg-7geq" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;background-color:#ffffc7;text-align:center;vertical-align:top;
+        padding:14px 5px;>random</td>
+        <td class="tg-baqh" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;text-align:center;vertical-align:top;
+        padding:14px 5px;>Returns a random <span style="font-style:italic">xkcd</span> comc strip.</td>
+      </tr>
+      <tr>
+        <td class="tg-7geq" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;background-color:#ffffc7;text-align:center;vertical-align:top;
+        padding:14px 5px;>&lt;number&gt;</td>
+        <td class="tg-baqh" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;text-align:center;vertical-align:top;
+        padding:14px 5px;>Returns <span style="font-style:italic">xkcd</span> comic strip with this specific number id. 
+        Must be between 1 and the latest <span style="font-style:italic">xkcd</span> number id.</td>
+      </tr>
+      <tr>
+        <td class="tg-7geq" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;background-color:#ffffc7;text-align:center;vertical-align:top;
+        padding:14px 5px;>help</td>
+        <td class="tg-baqh" style= border-color:black;border-style:solid;border-width:1px;font-family:Arial,sans-serif;
+        font-size:14px;overflow:hidden;word-break:normal;text-align:center;vertical-align:top;
+        padding:14px 5px;>Returns this table.</td>
+      </tr>
+    </tbody>
+    </table>
+    '''
+    help_card_dict = {
+        "cards": [
+            {
+                "sections": [
+                    {
+                        "widgets": [
+                            {
+                                "textParagraph": {
+                                    "text": html_help_table
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+    return help_card_dict
